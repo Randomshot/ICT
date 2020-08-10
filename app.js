@@ -41,26 +41,15 @@ function getData(){
                 var parseJson = JSON.parse(xmlToJson);
                 var value = parseJson.GwanakNewsList;
                 
-                //var title = value.row[0].TITLE._text;
-                //var date = value.row[0].WRITEDAY._text;
-                //var content = value.row[0].CONTENT._text;
-                //var number = value.row[0].SEQ._text;
-                //console.log(title);
-                //console.log(writeDay);
-
                 var title;
                 var date;
                 var content;
                 var number;
-                //content = removeTag(content);
-                //console.log(content);
-                //console.log(number);
                 
                 mysql.query('SELECT number FROM news ORDER BY number DESC LIMIT 1'
                 ,function(err,result){
                     if(err) console.log(err);
                     else{
-                        //console.log(result[0].number);
                         
                         for(var i=0; i<100; i++){
                    
@@ -68,10 +57,8 @@ function getData(){
                         date = value.row[i].WRITEDAY._text;
                         content = value.row[i].CONTENT._text;
                         number = value.row[i].SEQ._text;
-                    
                         content = removeTag(content);
                         date = date.substring(0,8);
-                    //console.log(number,title,date);
                     
                         if(result[0].number == number){
                            console.log("not updated");
@@ -90,27 +77,7 @@ function getData(){
                       }
                     }
                 });
-                /*
-                for(var i=0; i<100; i++){
-                   
-                    title = value.row[i].TITLE._text;
-                    date = value.row[i].WRITEDAY._text;
-                    content = value.row[i].CONTENT._text;
-                    number = value.row[i].SEQ._text;
-                    
-                    content = removeTag(content);
-                    date = date.substring(0,8);
-                    //console.log(number,title,date);
-                    
-                    mysql.query('INSERT INTO news (number,title,content,date) VALUES (?,?,?,?)'
-                    ,[number,title,content,date]
-                    ,function(err,result){
-                        if(err) console.log(err);
-                        else{
-                        }
-                    });
-                    
-                }*/
+                
             }
         }
     });
@@ -118,7 +85,9 @@ function getData(){
 
 app.get('/getData',function(req,res){
     getData();
-})
+});
+
+
 //open server
 app.get('/', function(req, res) {
     res.writeHead(200, {
